@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile and immutable role assignment (teacher or student) for Smart Classroom.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full display name of the teacher or student (2 to 80 characters)."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified account email address."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["teacher", "student"],
+          "description": "Immutable user role selected during registration."
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "Whether the user's email is verified in Firebase Auth."
+        },
+        "institution": {
+          "type": "string",
+          "description": "Optional department, school, or grade level."
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "Optional profile photo URL."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was last updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "email",
+        "role",
+        "emailVerified",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Stores private user profile, email, and role metadata keyed by Firebase Auth UID."
+    }
+  }
+}
